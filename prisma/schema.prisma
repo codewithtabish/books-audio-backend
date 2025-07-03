@@ -1,0 +1,236 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum ActivityType {
+  CLICK_READ
+  BOOKMARK
+  DOWNLOAD
+  COMPLETE
+  PAUSE
+  PLAY
+}
+
+model User {
+  id                  String        @id @default(cuid())
+  clerkId             String        @unique
+  email               String        @unique
+  userName            String
+  isOnBoardedComplete Boolean       @default(false)
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  role                UserRole      @default(USER)
+
+  preferredGenres     Genre[]       @relation("UserPreferredGenres")
+  preferredAuthors    Author[]      @relation("UserPreferredAuthors")
+  bookmarks           Bookmark[]
+  downloads           Download[]
+  reviews             Review[]
+  settings            UserSettings?
+  authorFollows       AuthorFollow[]
+  activities          UserActivity[]
+  notifications       Notification[]
+}
+
+model Author {
+  id        String         @id @default(cuid())
+  name      String         @unique
+  authorPorfile String
+  books     Book[]
+  users     User[]         @relation("UserPreferredAuthors")
+  followers AuthorFollow[]
+
+  @@index([name])
+}
+
+model Genre {
+  id    String  @id @default(cuid())
+  name  String  @unique
+  books Book[]
+  users User[]  @relation("UserPreferredGenres")
+
+  @@index([name])
+}
+
+model AuthorFollow {
+  id        String   @id @default(cuid())
+  userId    String
+  authorId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, authorId])
+  @@index([authorId])
+}
+
+model Book {
+  id              String        @id @default(cuid())
+  title           String
+  slug            String        @unique
+  bookCoverUrl    String
+  bookBannerUrl   String
+  narrator        String
+  description     String?
+  bookTotalTiming Int
+  publishedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  authorId String
+  genreId  String
+
+  author     Author         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  genre      Genre          @relation(fields: [genreId], references: [id], onDelete: Cascade)
+  bookmarks  Bookmark[]
+  chapters   Chapter[]
+  downloads  Download[]
+  reviews    Review[]
+  activities UserActivity[]
+
+  @@index([authorId])
+  @@index([genreId])
+  @@index([publishedAt])
+}
+
+model Chapter {
+  id       String   @id @default(cuid())
+  title    String
+  slug     String   @unique
+  summary  String
+  order    Int
+  duration Int
+  audioUrl String
+  bookId   String
+
+  book       Book           @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookmarks  Bookmark[]
+  downloads  Download[]
+  activities UserActivity[]
+
+  @@index([bookId])
+  @@index([order])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  rating     Int      // 1-5 stars
+  comment    String?
+  userName   String
+  userId     String
+  bookId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([bookId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  chapterId String
+  position  Int
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([bookId])
+  @@index([chapterId])
+}
+
+model Download {
+  id           String   @id @default(cuid())
+  userId       String
+  bookId       String
+  chapterId    String
+  language     String
+  downloadedAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book    Book    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([bookId])
+  @@index([chapterId])
+  @@index([language])
+}
+
+model UserSettings {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  playbackSpeed Float   @default(1.0)
+  theme         String  @default("light")
+  notifications Boolean @default(true)
+  autoDownload  Boolean @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserActivity {
+  id        String       @id @default(cuid())
+  userId    String?
+  bookId    String?
+  chapterId String?
+  type      ActivityType
+  position  Int?
+  createdAt DateTime     @default(now())
+
+  user    User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  book    Book?    @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  chapter Chapter? @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([bookId])
+  @@index([chapterId])
+  @@index([type])
+}
+
+
+
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  seen      Boolean          @default(false)
+  type      NotificationType @default(GENERAL)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([seen])
+  @@index([createdAt])
+}
+
+
+
+enum NotificationType {
+  RECOMMENDATION
+  REMINDER
+  NEW_BOOK
+  FOLLOWED_AUTHOR
+  GENERAL
+}
