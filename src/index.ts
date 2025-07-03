@@ -5,11 +5,13 @@ import cors from "cors";
 import express, { Application, Request, Response } from 'express';
 import rootRoutes from './routes';
 import { errorHandler } from './middleware/error-handler';
+import { redis } from './lib/redis';
+import { RedisKeys } from './config/redis-key';
 
 
 const app:Application = express();
 
-const PORT = 14000;
+const PORT = 34000;
 
 
 app.use(express.json());
@@ -38,7 +40,11 @@ app.get('/test', (req, res) => {
 app.use(errorHandler);
 
 
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
+    const cachedGenres = await redis.get(RedisKeys.ALL_GENRES);
+    const single = await redis.get(RedisKeys.GENRE_DETAIL("cmcn8pa840002ujosthay0y4y"));
+      console.log("cachedGenres in index cachedGenras",cachedGenres)
+      console.log("cachedGenres in index single 🔥🔥",single)
   console.log(`Server is running at http://localhost:${PORT} 🔥🔥 ---`);
 });
 
