@@ -2,20 +2,20 @@
 import { Router } from "express";
 import {
   createChapterWithAudio,
-  getAllChapters,
   getChapterById,
   updateChapterById,
   deleteChapterById,
+  getChaptersByBook,
 } from "../controller/chatpter.controller";
 // import upload from "../middleware/uploadToS3"; // If you want to handle file uploads
 
 const chapterRouter = Router();
 
 // Create chapter
-chapterRouter.post("/create-chapter", createChapterWithAudio);
+chapterRouter.post("/", createChapterWithAudio);
 
 // Get all chapters
-chapterRouter.get("/", getAllChapters);
+chapterRouter.get("/:bookId", getChaptersByBook);
 
 // Get chapter by ID
 chapterRouter.get("/:id", getChapterById);

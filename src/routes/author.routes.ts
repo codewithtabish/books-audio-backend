@@ -8,7 +8,7 @@ const authorRouter = express.Router();
 authorRouter.post("/", isAdmin,createAuthor);
 authorRouter.get("/", getAllAuthors);
 authorRouter.get("/:id", getAuthorById);
-authorRouter.put("/:id",isAdmin, updateAuthor);
-authorRouter.delete("/:id",isAdmin, deleteAuthor);
+authorRouter.put("/:id", updateAuthor);
+authorRouter.delete("/:id", deleteAuthor);
 
 export default authorRouter;

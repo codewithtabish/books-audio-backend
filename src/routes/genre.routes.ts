@@ -12,8 +12,8 @@ const genreRouter = Router();
 
 genreRouter.get("/", getAllGenres);
 genreRouter.get("/:id", getGenreById);
-genreRouter.post("/", isAdmin, createGenre);
-genreRouter.patch("/:id", isAdmin, updateGenre);
-genreRouter.delete("/:id", isAdmin, deleteGenre);
+genreRouter.post("/", createGenre);
+genreRouter.patch("/:id", updateGenre);
+genreRouter.delete("/:id", deleteGenre);
 
 export default genreRouter;

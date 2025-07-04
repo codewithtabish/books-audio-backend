@@ -11,7 +11,7 @@ import { RedisKeys } from './config/redis-key';
 
 const app:Application = express();
 
-const PORT = 34000;
+const PORT = 44000;
 
 
 app.use(express.json());
@@ -43,8 +43,12 @@ app.use(errorHandler);
 app.listen(PORT, async() => {
     const cachedGenres = await redis.get(RedisKeys.ALL_GENRES);
     const single = await redis.get(RedisKeys.GENRE_DETAIL("cmcn8pa840002ujosthay0y4y"));
+        const cachedAuthors = await redis.get(RedisKeys.ALL_AUTHORS);
+        // const cachedAuthors = await redis.get(RedisKeys.ALL_AUTHORS);
+
       console.log("cachedGenres in index cachedGenras",cachedGenres)
       console.log("cachedGenres in index single 🔥🔥",single)
+      console.log("cachedGenres in all authors 🔥🔥",cachedAuthors)
   console.log(`Server is running at http://localhost:${PORT} 🔥🔥 ---`);
 });
 
