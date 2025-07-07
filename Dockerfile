@@ -40,5 +40,5 @@ RUN npm cache clean --force
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 USER appuser
 
-EXPOSE 49000
+EXPOSE 3000
 CMD ["node", "dist/index.js"]

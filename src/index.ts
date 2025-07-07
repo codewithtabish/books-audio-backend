@@ -9,7 +9,7 @@ import { errorHandler } from './middleware/error-handler';
 
 const app:Application = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 
 app.use(express.json());
@@ -40,7 +40,7 @@ app.use(errorHandler);
 
 
 export const startServer=()=>{
-  app.listen(PORT, async() => {
+  app.listen(PORT, '0.0.0.0', async() => {
     // const cachedGenres = await redis.get(RedisKeys.ALL_GENRES);
     // const single = await redis.get(RedisKeys.GENRE_DETAIL("cmcn8pa840002ujosthay0y4y"));
         // const cachedAuthors = await redis.get(RedisKeys.ALL_AUTHORS);

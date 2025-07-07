@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     expose:
-      - "49000"              # expose to other containers
+      - "3000"              # expose to other containers
     env_file:
       - .env.prod
     restart: always
