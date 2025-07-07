@@ -15,6 +15,7 @@ build/
 .env.development
 .env.production
 .env.test
+.env.prod
 
 # Prisma files
 prisma/dev.db
@@ -31,22 +32,18 @@ yarn-error.log*
 # Coverage reports
 coverage/
 
-# OS-specific
+# OS-specific files
 .DS_Store
 Thumbs.db
 
-# Editor config
+# Editor configs
 .vscode/
 .idea/
 
-# Compiled cache
+# Compiled cache or SQLite files
 *.sqlite
 *.db
 
 # Service credentials (like GCP, Firebase)
-*.json
-
-# Optional lock files (if not used)
-# yarn.lock
-# package-lock.json
-.env.prod
+# Only ignore specific secrets, not all JSONs
+# e.g., firebase-service-account.json

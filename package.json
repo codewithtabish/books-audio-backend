@@ -1,0 +1,35 @@
+{
+  "name": "mobile-books-backend",
+  "version": "1.0.0",
+  "description": "Audio books backend with TypeScript, Express, Prisma",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch src --ext ts --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit ",
+    "pm2": "pm2 start dist/index.js -i max"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clerk/clerk-sdk-node": "^4.13.23",
+    "@prisma/client": "^6.11.0",
+    "@upstash/redis": "^1.35.1",
+    "bullmq": "^5.56.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
+    "@types/multer-s3": "^3.0.3",
+    "@types/node": "^20.0.0",
+    "nodemon": "^3.1.0",
+    "prisma": "^6.11.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}
