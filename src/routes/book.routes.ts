@@ -4,13 +4,15 @@ import { Router } from "express";
 // import { createBook, deleteBook, getAllBooks, getBookBySlug, updateBook,  } from "../controller/book.controller";
 import { checkLanguageMiddleware } from "../middleware/check-auth-middleware";
 import { createBook, getAllBooks } from "../controller/book.controller";
+import { getAllBooksWithoutID } from '../controller/chatpter.controller';
 // import upload from "../middleware/uploadToS3";
 
 const bookRouter = Router();
 
 bookRouter.post("/",createBook);
+// bookRouter.get("/",getAllBooksWithoutID);
 
-bookRouter.get('/:bookId',getAllBooks)
+bookRouter.get('/',getAllBooks)
 
 
 

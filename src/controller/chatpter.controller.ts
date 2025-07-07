@@ -179,9 +179,9 @@ export const deleteChapterById = async (req: Request, res: Response): Promise<an
 
 
 // --- GET ALL CHAPTERS ---
-export const getAllChapters = async (req: Request, res: Response): Promise<any> => {
+export const getAllBooksWithoutID = async (req: Request, res: Response): Promise<any> => {
   try {
-    const chapters = await prisma.chapter.findMany({
+    const chapters = await prisma.book.findMany({
 
     
       // orderBy: { : 'desc' }, // or 'asc' if you prefer
@@ -190,14 +190,14 @@ export const getAllChapters = async (req: Request, res: Response): Promise<any> 
     return res.status(200).json({
       status: true,
       statusCode: 200,
-      reason: 'All chapters fetched successfully.',
+      reason: 'All books fetched successfully.',
       data: chapters,
     });
   } catch (error: any) {
     return res.status(500).json({
       status: false,
       statusCode: 500,
-      reason: 'Error fetching all chapters.',
+      reason: 'Error fetching all books.',
       error: error.message,
     });
   }
