@@ -1,6 +1,8 @@
 // express.d.ts or types/express/index.d.ts
 
-import { User } from "@prisma/client"; // or your own user type
+// import { User } from "@prisma/client"; // or your own user type
+
+export {}; // Ensure this file is treated as a module
 
 declare global {
   namespace Express {

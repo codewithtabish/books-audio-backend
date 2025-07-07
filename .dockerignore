@@ -1,0 +1,28 @@
+# Node and build outputs
+node_modules
+dist
+
+# Git repo
+.git
+.gitignore
+
+# Docker build artifacts
+Dockerfile
+.dockerignore
+
+# Logs
+npm-debug.log
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# OS / IDE / editor-specific
+.DS_Store
+.vscode
+*.swp
+
+# Prisma build artifacts
+node_modules/.prisma
+prisma/migrations

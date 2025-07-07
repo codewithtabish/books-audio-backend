@@ -5,13 +5,11 @@ import cors from "cors";
 import express, { Application, Request, Response } from 'express';
 import rootRoutes from './routes';
 import { errorHandler } from './middleware/error-handler';
-import { redis } from './lib/redis';
-import { RedisKeys } from './config/redis-key';
 
 
 const app:Application = express();
 
-const PORT = 46000;
+const PORT = process.env.PORT || 3000;
 
 
 app.use(express.json());
