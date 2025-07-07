@@ -175,3 +175,32 @@ export const deleteChapterById = async (req: Request, res: Response): Promise<an
     return res.status(500).json({ status: false, statusCode: 500, reason: "Error deleting chapter.", error: error.message });
   }
 };
+
+
+
+// --- GET ALL CHAPTERS ---
+export const getAllChapters = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const chapters = await prisma.chapter.findMany({
+
+    
+      // orderBy: { : 'desc' }, // or 'asc' if you prefer
+    });
+
+    return res.status(200).json({
+      status: true,
+      statusCode: 200,
+      reason: 'All chapters fetched successfully.',
+      data: chapters,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      status: false,
+      statusCode: 500,
+      reason: 'Error fetching all chapters.',
+      error: error.message,
+    });
+  }
+};
+
+

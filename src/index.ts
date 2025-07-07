@@ -23,7 +23,7 @@ app.use('/api/v1',rootRoutes)
 
 app.get('/', (_req:Request, res:Response) => {
   console.log('IN HOME ROUTE')
-  res.send(`your request is handled by worker having ${process.pid}`)
+  res.send(`your request is handled by worker having again ${process.pid}`)
 
   // res.send('Hello from TypeScript backend!!! --- ---');
 });
